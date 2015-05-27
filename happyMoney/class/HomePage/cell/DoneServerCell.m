@@ -43,14 +43,14 @@
         _nickName = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_nickName];
         _nickName.textColor = HexRGB(0x808080);
-        _nickName.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        _nickName.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _nickName.text = [SystemConfig sharedInstance].user.userName;
         
         //3 time
         _dateLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_dateLB];
         _dateLB.textColor = HexRGB(0x808080);
-        _dateLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        _dateLB.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _dateLB.text = @"2013.08.98";
         
         //4 first line
@@ -177,11 +177,6 @@
     }
     return self;
 }
-
-//-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-//{
-//
-//}
 
 -(void)setData:(OrderModel *)data
 {

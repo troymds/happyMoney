@@ -36,14 +36,14 @@
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:time];
         time.textColor = HexRGB(0x808080);
-        time.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        time.font = [UIFont systemFontOfSize:PxFont(Font20)];
         time.text = @"下单时间: 2014.05.01";
         _time = time;
         
         UILabel *transType = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:transType];
         transType.textColor = HexRGB(0x808080);
-        transType.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        transType.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _typeLb = transType;
         
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectZero];
@@ -125,14 +125,10 @@
         [self.contentView addSubview:line3];
         line3.backgroundColor = HexRGB(KCellLineColor);
         _line3 = line3;
-        
-        //        _viewH = CGRectGetMaxY(line3.frame);
+
     }
     return self;
 }
-//-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-//{
-//}
 
 -(void)setData:(OrderModel *)data
 {
@@ -180,16 +176,38 @@
     }
     
     //4
-    
-    CGFloat shippingY = _viewH + startXY;
-    CGFloat vH = 45;
+    CGFloat thirdViewY = _viewH + startXY;
+    CGFloat titleH = 15;
+    CGFloat telY = 0;
     CGFloat space = 5;
-    CGFloat titleH = (vH - startXY * 2 - space);
+    CGFloat thirdH = 0;
+    CGFloat totalX = kWidth - 110;
+    if (self.type == KTTypeWuliu) {
+        //客运号和 联系电话都有，否则只有联系电话
+        _shipping.hidden = NO;
+        _shipping.frame = Rect(startXY, thirdViewY, 200, titleH);
+//        _shipping.text = data.address_id;
+        telY = CGRectGetMaxY(_shipping.frame) + space;
+        _telLB.frame = Rect(startXY, telY, 200, titleH);
+        
+        _total.frame = Rect(totalX, thirdViewY + 5, 55, titleH);
+        
+        _money.frame = Rect(CGRectGetMaxX(_total.frame) - 5, thirdViewY + 5, 60, titleH);
+        thirdH = 55;
+    }else
+    {
+        _shipping.hidden = YES;
+        
+        telY = thirdViewY;
+        _telLB.frame = Rect(startXY, telY, 200, titleH);
+        
+        _total.frame = Rect(totalX, telY, 55, titleH);
+        
+        _money.frame = Rect(CGRectGetMaxX(_total.frame) - 5, telY, 60,titleH);
+        thirdH = 35;
+    }
     
-    _shipping.frame = Rect(startXY, shippingY, 200, titleH);
-    
-    CGFloat telY = CGRectGetMaxY(_shipping.frame) + space;
-    _telLB.frame = Rect(startXY, telY, 200, titleH);
+    _viewH += thirdH;
     
     OrderListAddressModel *addrsssModel = nil;
     if (![_data.address isKindOfClass:[NSNull class]]) {
@@ -198,17 +216,12 @@
     
     _telLB.text = [NSString stringWithFormat:@"联系电话：%@",addrsssModel != nil ? addrsssModel.phone_num : @""];
     
-    _total.frame = Rect(CGRectGetMaxX(_telLB.frame) + 10, shippingY + 5, 55, titleH);
-    
-    _money.frame = Rect(CGRectGetMaxX(_total.frame) - 5, shippingY + 5, 60, titleH);
     _money.text = [NSString stringWithFormat:@"¥ %@",data.order_price];
     
-    _viewH = CGRectGetMaxY(_telLB.frame) + startXY;
+//    _viewH = CGRectGetMaxY(_telLB.frame) + startXY;
     
     _line2.frame = Rect(linxX, _viewH - 0.5, kWidth - linxX * 2, 0.5);
-    
-    //    _viewH = _viewH + firstViewH;
-    
+
     CGFloat btnGroupY = _viewH + startXY;
     
     CGFloat btnW = 90;
@@ -227,9 +240,6 @@
         //只有查看订单按钮
         _typeLb.text = @"物流";
         _wuliuBtn.hidden = NO;
-        //        _conformBtn.hidden = YES;
-        //        _checkBtn.frame = Rect(btnXX + (btnW + 10) * 1, btnGroupY, btnW, btnH);
-        //        _wuliuBtn.frame  = Rect(kWidth - 10 - btnW, btnGroupY, btnW, btnH);
         
     }else
     {

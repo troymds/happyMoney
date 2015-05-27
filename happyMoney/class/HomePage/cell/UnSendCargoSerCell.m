@@ -82,9 +82,6 @@
         line2.backgroundColor = HexRGB(KCellLineColor);
         _line2 = line2;
         
-        //  电话 收货地址
-//        CGFloat telY = 0;
-        
         UILabel *typeLB = [[UILabel alloc] initWithFrame:CGRectZero];
         typeLB.textColor = HexRGB(0x808080);
         typeLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
@@ -102,26 +99,15 @@
         _addressLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         
         [self addSubview:_telLB];
-//        CGFloat telH;
-//        CGFloat telAddVH;
+
         if (self.type == KTTypeWuliu) {
-//            telY = _viewH + startXY;
-//            telAddVH = 50;
-//            CGFloat space = 15;
-//            telH = (telAddVH - startXY * 2 - space)/2;
             typeLB.text = @"物流";
             _addressLB.hidden = NO;
             _addressLB.text = @"收货地址：南京市情怀去新街口国际大厦XXX";
             _addressLB.numberOfLines = 0;
-//            _viewH += telAddVH;
         }else
         {
-//            telY = _viewH + startXY;
-//            typeLB.text = @"自提";
-//            telAddVH = 30;
-//            telH = telAddVH - startXY * 2;
             _addressLB.hidden = YES;
-//            _viewH += telAddVH;
         }
         _telLB.text = @"联系电话：13987898767";
         
@@ -147,15 +133,12 @@
         [btn setTitleColor:ButtonColor forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(selClicked) forControlEvents:UIControlEventTouchUpInside];
         btn.frame = CGRectZero;
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selClicked)];
-//        [btn addGestureRecognizer:tap];
-        
+
         UIView *line4 = [[UIView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:line4];
         line4.backgroundColor = HexRGB(KCellLineColor);
         _line4 = line4;
-        
-//        _viewH = CGRectGetMaxY(line4.frame);
+
     }
     return self;
 }
@@ -313,7 +296,6 @@
 
 -(void)selClicked
 {
-    NSLog(@"checkDetail");
     if ([self.delegate respondsToSelector:@selector(OrderCellBtnCliked: withOrderID:)]) {
         [self.delegate OrderCellBtnCliked:KOrderBtnClickedTypeDetal withOrderID:_data.ID ];
     }

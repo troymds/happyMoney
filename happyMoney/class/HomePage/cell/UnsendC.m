@@ -42,14 +42,14 @@
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:time];
         time.textColor = HexRGB(0x808080);
-        time.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        time.font = [UIFont systemFontOfSize:PxFont(Font20)];
         time.text = @"下单时间: 2014.05.01";
         _time = time;
         
         UILabel *transType = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:transType];
         transType.textColor = HexRGB(0x808080);
-        transType.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        transType.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _typeLb = transType;
 
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectZero];

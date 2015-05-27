@@ -392,7 +392,12 @@
     {
         if (loinType == 0) {
             //"DoneCustomCell";
-           h = firstViewH + count * proH + 45 + startXY * 4 + btnH;
+            if (isSelfget) {
+                h = firstViewH + count * proH + 35 + startXY * 2 + btnH;
+            }else
+            {
+                h = firstViewH + count * proH + 55 + startXY * 2 + btnH;
+            }
         }else
         {
             //"DoneSCell";
