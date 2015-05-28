@@ -31,6 +31,7 @@
     UIButton *_wuliuBtn;
     UIButton *_checkBtn;
     UIButton *_conformBtn;
+    UIView *_bottomView;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -38,6 +39,11 @@
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         //1 time
 //        self.backgroundColor = HexRGB(0xeeeeee);
+        
+        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:bottomView];
+        bottomView.backgroundColor = HexRGB(0xeeeeee);
+        _bottomView = bottomView;
         
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:time];
@@ -71,7 +77,7 @@
         UILabel *tel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:tel];
         tel.textColor = HexRGB(0x808080);
-        tel.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        tel.font = [UIFont systemFontOfSize:PxFont(Font20)];
         tel.text = @"联系电话：13989878987";
         _tel = tel;
         
@@ -79,14 +85,14 @@
         [self.contentView addSubview:total];
         total.text = @"总计：";
         total.textColor = HexRGB(0x808080);
-        total.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        total.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _total = total;
         
         UILabel *money = [[UILabel alloc] initWithFrame:CGRectZero];
         [self addSubview:money];
         money.text = @" ¥ 2136";
         money.textColor = HexRGB(0x3a3a3a);
-        money.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        money.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _money = money;
 
         UIView *oldLine = [[UIView alloc] initWithFrame:CGRectZero];
@@ -132,7 +138,6 @@
         
         line3.backgroundColor = HexRGB(KCellLineColor);
         _line3 = line3;
-        
 //        _viewH = CGRectGetMaxY(line3.frame);
     }
     return self;
@@ -143,20 +148,22 @@
     //1 time
     _data = data;
     
+    CGFloat bottomH = 15;
+    _bottomView.frame = Rect(0, 0, kWidth, bottomH);
+    
     CGFloat timeH = (firstViewH - startXY )/2;
     
-    _time.frame = Rect(startXY, startXY, 260, timeH);
-    
-    ;
+    CGFloat timeY = bottomH + startXY;
+    _time.frame = Rect(startXY, timeY, 260, timeH);
     _time.text = [NSString stringWithFormat:@"下单时间：%@",[Tool getShortTimeFrom:data.post_time]];
     
     CGFloat typeX = kWidth - startXY - 60;
-    _typeLb.frame = Rect(typeX, startXY, 60, timeH);
+    _typeLb.frame = Rect(typeX, timeY, 60, timeH);
     
     CGFloat linxX = 3;
-    CGFloat linxY = firstViewH - 0.5;
+    CGFloat linxY = CGRectGetMaxY(_time.frame) + startXY - 0.5;
     _line1.frame = Rect(linxX, linxY, kWidth - linxX * 2, 0.5);
-    _viewH = firstViewH;
+    _viewH = CGRectGetMaxY(_line1.frame);;
     
     //3 product
     
@@ -193,11 +200,12 @@
     }
 
     CGFloat telY = _viewH + startXY;
-    _tel.frame = Rect(startXY, telY, 200, timeH);
+    CGFloat totalX = kWidth - 110;
     
+    _tel.frame = Rect(startXY, telY, 200, timeH);
     _tel.text = [NSString stringWithFormat:@"联系电话：%@",addrsssModel != nil ? addrsssModel.phone_num : @""];
     
-    _total.frame = Rect(CGRectGetMaxX(_tel.frame) , telY, 55, timeH);
+    _total.frame = Rect(totalX , telY, 55, timeH);
 
 
     _money.frame = Rect(CGRectGetMaxX(_total.frame) - 5, telY, 60, timeH);

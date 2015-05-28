@@ -94,7 +94,7 @@
         }
     }
     
-    menuBackY = CGRectGetMaxY(menuBack.frame) + StartXY;
+    menuBackY = CGRectGetMaxY(menuBack.frame);
     
     [self loadData];
 }
@@ -111,7 +111,7 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, menuBackY,kWidth,KAppNoTabHeight - menuBackY) style:UITableViewStylePlain];
         _tableView.dataSource = self;
         _tableView.delegate = self;
-//        _tableView.backgroundColor = HexRGB(0xeeeeee);
+        _tableView.backgroundColor = HexRGB(0xeeeeee);
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorColor = [UIColor clearColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -366,15 +366,15 @@
     if (_selectedBtn.tag == 0 + KMenuTag) {
         if (loinType == 0) {
             //"unSendCustomCell";
-            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH;
+            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 5;
         }else
         {
             //"unSendServerCell";
             if (isSelfget) {
-                h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 30;
+                h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 30+ 5;
             }else
             {
-                h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 50;
+                h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 50+ 5;
             }
             
         }
@@ -382,26 +382,31 @@
     {
         if (loinType == 0) {
             //"SendingCustomCell";
-            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH;
+            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH+ 5;
         }else
         {
             //"SendingSCell";
-            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH;
+            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH + 5;
         }
     }else
     {
         if (loinType == 0) {
             //"DoneCustomCell";
             if (isSelfget) {
-                h = firstViewH + count * proH + 35 + startXY * 2 + btnH;
+                h = firstViewH + count * proH + 35 + startXY * 2 + btnH - 10;
             }else
             {
-                h = firstViewH + count * proH + 55 + startXY * 2 + btnH;
+                h = firstViewH + count * proH + 55 + startXY * 2 + btnH - 10;
             }
         }else
         {
             //"DoneSCell";
-            h = firstViewH + count * proH + firstViewH + startXY * 2 + btnH;
+            if (isSelfget) {
+                h = firstViewH + count * proH + 30 + startXY * 2 + btnH + 5;
+            }else
+            {
+                h = firstViewH + count * proH + 50 + startXY * 2 + btnH + 5;
+            }
         }
     }
     return h ;

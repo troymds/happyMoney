@@ -65,6 +65,7 @@
         useDate.font = [UIFont systemFontOfSize:PxFont(18.0)];
         useDate.textColor = HexRGB(0x666666);
         [back addSubview:useDate];
+        useDate.adjustsFontSizeToFitWidth = YES;
         useDate.text = @"使用期限2015.1.22-2015.2.22";
         _date = useDate;
         

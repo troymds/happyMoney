@@ -17,6 +17,7 @@
 @property (nonatomic,assign) NSString * uid;       //用户uid
 @property (nonatomic, assign) int userType;         //1 普通用户 ，2 商家
 @property (nonatomic,assign) NSInteger selectedIndex;         //tap 将要选择的index
+@property (nonatomic, assign) BOOL isFormConformOrder; //  是否从订单页面进入增加地址页面 
 @property (nonatomic,strong) DefaultAddressModel *defaultAddress;
 + (SystemConfig *)sharedInstance;
 

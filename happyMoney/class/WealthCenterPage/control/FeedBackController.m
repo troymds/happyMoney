@@ -38,7 +38,12 @@
     icon.layer.masksToBounds = YES;
     icon.layer.cornerRadius = iconWH/2;
     icon.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    [icon setImageWithURL:[NSURL URLWithString:[SystemConfig sharedInstance].user.avatar]
+    
+    NSString *avata = [SystemConfig sharedInstance].user.avatar;
+    if ([avata isKindOfClass:[NSNull class]]) {
+        avata = @"default";
+    }
+    [icon setImageWithURL:[NSURL URLWithString:avata]
         placeholderImage:placeHoderImage];
     
     CGFloat labelX = CGRectGetMaxX(icon.frame) + 10;

@@ -267,7 +267,7 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.dimBackground = NO;
         
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_phone.imgField.textField.text,@"phone_num",_useName.imgField.textField.text,@"username",_passWord.imgField.textField.text,@"password", _yzm.imgField.textField.text,@"register_code",nil];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_phone.imgField.textField.text,@"phone_num",_useName.imgField.textField.text,@"username",_passWord.imgField.textField.text,@"password", _yzm.imgField.textField.text,@"register_code",@"123456",@"invite_code",nil];
         NSLog(@"%@",params);
         
         [HttpTool postWithPath:@"register" params:params success:^(id JSON, int code) {

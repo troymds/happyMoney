@@ -33,7 +33,11 @@
         _icon.backgroundColor = [UIColor clearColor];
         _icon.layer.masksToBounds = YES;
         _icon.layer.cornerRadius = iconWH/2;
-        [_icon setImageWithURL:[NSURL URLWithString:[SystemConfig sharedInstance].user.avatar] placeholderImage:placeHoderImage];
+        NSString *avata = [SystemConfig sharedInstance].user.avatar;
+        if ([avata isKindOfClass:[NSNull class]]) {
+            avata = @"default";
+        }
+        [_icon setImageWithURL:[NSURL URLWithString:avata] placeholderImage:placeHoderImage];
         //2 nick name
         
         _nickName = [[UILabel alloc] initWithFrame:CGRectZero];

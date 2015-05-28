@@ -9,6 +9,10 @@
 #import "AddAddressController.h"
 #import "MDSTextField.h"
 #import "ImageTextView.h"
+#import "DefaultAddressModel.h"
+#import "SystemConfig.h"
+#import "ConformOrderController.h"
+#import "Tool.h"
 
 @interface AddAddressController ()<UITextFieldDelegate>
 {
@@ -73,29 +77,78 @@
     }
 }
 
+
+#pragma mark 检查数据填写是否完整
+- (BOOL)checkData
+{
+    if (_nameText.text.length == 0) {
+        [RemindView showViewWithTitle:@"请输入姓名" location:MIDDLE];
+        return NO;
+    }
+    if (_phoneText.text.length == 0) {
+        [RemindView showViewWithTitle:@"请输入11位数手机号" location:MIDDLE];
+        return NO;
+    }
+    if (_addressText.text.length == 0) {
+        [RemindView showViewWithTitle:@"请输入地址" location:MIDDLE];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark 检查电话号码
+- (BOOL)checkPhoneNum
+{
+    if (_phoneText.text.length == 0) {
+        [RemindView showViewWithTitle:@"请输入手机号码" location:MIDDLE];
+        return NO;
+    }
+    if (![Tool isValidPhoneNum:_phoneText.text]) {
+        [RemindView showViewWithTitle:@"手机号码格式不正确" location:MIDDLE];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)confromadd
 {
-    if (_nameText.text.length > 0 && _phoneText.text.length > 0 && _addressText.text.length > 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.dimBackground = NO;
-        
-        //    NSLog(@"%@",_addressText.text);
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_nameText.text,@"contact",_phoneText.text,@"phone_num",_addressText.text,@"address", nil];
-        
-        [HttpTool postWithPath:@"addAddress" params:params success:^(id JSON, int code) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [RemindView showViewWithTitle:addAddressSuccess location:MIDDLE];
-            if (code == 100) {
-                //            NSString *addID = [[JSON objectForKey:@"response"] objectForKey:@"data"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        } failure:^(NSError *error) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [RemindView showViewWithTitle:offline location:MIDDLE];
-        }];
-    }else
-    {
-        [RemindView showViewWithTitle:@"请填写完整信息" location:MIDDLE];
+    if ([self checkData]) {
+        if ([self checkPhoneNum]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.dimBackground = NO;
+            
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_nameText.text,@"contact",_phoneText.text,@"phone_num",_addressText.text,@"address", nil];
+            
+            [HttpTool postWithPath:@"addAddress" params:params success:^(id JSON, int code) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [RemindView showViewWithTitle:addAddressSuccess location:MIDDLE];
+                if (code == 100) {
+                    //如果是第一次添加，设置确认订单里面的默认地址
+                    NSArray *ctls =  self.navigationController.viewControllers;
+                    for (UIViewController *ctl in ctls) {
+                        if ([ctl isKindOfClass:[ConformOrderController class]]) {
+                            if ([SystemConfig sharedInstance].isFormConformOrder == YES ) {
+                                DefaultAddressModel *address = [[DefaultAddressModel alloc] init];
+                                address.address = _addressText.text;
+                                address.contact = _nameText.text;
+                                address.phone_num = _phoneText.text;
+                                NSString *addressID = [[JSON objectForKey:@"response"] objectForKey:@"data"];
+                                address.ID = addressID;
+                                
+                                ConformOrderController *confom = (ConformOrderController *)ctl;
+                                confom.address = address;
+                                
+                            }
+                        }
+                    }
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            } failure:^(NSError *error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [RemindView showViewWithTitle:offline location:MIDDLE];
+            }];
+        }
     }
 }
 

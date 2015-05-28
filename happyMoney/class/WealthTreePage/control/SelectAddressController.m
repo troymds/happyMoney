@@ -78,16 +78,6 @@
     _hit2.text = @"请点击右上角图标进行添加哦!";
     _nodataImg.hidden = NO;
     _hit.hidden = NO;
-    
-//    if (_dataArray.count > 0) {
-//        _nodataImg.hidden = YES;
-//        _hit.hidden = YES;
-//    }else
-//    {
-//        _nodataImg.hidden = NO;
-//        _hit.hidden = NO;
-//    }
-    
 }
 
 -(void)loadData
@@ -144,9 +134,9 @@
     return _dataArray.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+
     static NSString *ID = @"cellName";
     AddressCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {

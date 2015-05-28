@@ -26,12 +26,17 @@
     UIView *_line3;
     UIButton *_wuliuBtn;
     UIButton *_checkBtn;
+    UIView *_bottomView;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier ;
 {
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         //1 time
+        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:bottomView];
+        bottomView.backgroundColor = HexRGB(0xeeeeee);
+        _bottomView = bottomView;
         
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:time];
@@ -112,6 +117,7 @@
             btn.layer.masksToBounds = YES;
             btn.layer.cornerRadius = 5.0;
             btn.layer.borderWidth = 0.5;
+            btn.layer.borderColor = ButtonColor.CGColor;
             [btn setBackgroundColor:[UIColor clearColor]];
             [btn setTitle:btns[i] forState:UIControlStateNormal];
             [btn setTitle:btns[i] forState:UIControlStateSelected];
@@ -134,13 +140,16 @@
 {
     _data = data;
     //1 time
+    CGFloat bottomH = 15;
+    _bottomView.frame = Rect(0, 0, kWidth, bottomH);
     
     CGFloat timeH = (firstViewH - startXY)/2;
-    _time.frame = Rect(startXY, startXY, 250, timeH);
+    CGFloat timeY = bottomH + startXY;
+    _time.frame = Rect(startXY, timeY, 250, timeH);
     _time.text = [NSString stringWithFormat:@"下单时间：%@",[Tool getShortTimeFrom:data.post_time]];
     
     CGFloat typeX = kWidth - startXY - 60;
-    _typeLb.frame = Rect(typeX, startXY, 60, timeH);
+    _typeLb.frame = Rect(typeX, timeY, 60, timeH);
     
     CGFloat linxX = 3;
     CGFloat linxY = CGRectGetMaxY(_time.frame) + startXY - 0.5;

@@ -20,6 +20,7 @@
 #import "AddAddressController.h"
 #import "MyOrderController.h"
 #import "UseHongbaoView.h"
+#import "SystemConfig.h"
 
 #define KStartX 20
 #define KStartTag 100
@@ -53,6 +54,7 @@
     UIButton *_expandBtn;
     UIView *_orderListView;
     UILabel *_click;
+    NSInteger _payMethod;
 }
 @property (nonatomic,copy) NSString *money;
 @property (nonatomic,copy) NSString *selfAddress;//自提地址
@@ -68,15 +70,38 @@
     if (_backScroll) {
         //如果，还是没有地址,且选中的按钮是自提
         //提示还没有收获地址
-#warning 要继续处理,_address = nil
-        if (_address.ID.length == 0 && _selectedBtn.tag == KWuliu) {
-            if (!_noaddress) {
-                _noaddress = [[NoAddressView alloc] initWithFrame:Rect(0, 0, kWidth, 300)];
-                _noaddress.delegate = self;
-                [_noaddress show];
+
+//        if (_address == nil && _selectedBtn.tag == KWuliu) {
+//            if (!_noaddress) {
+//                _noaddress = [[NoAddressView alloc] initWithFrame:Rect(0, 0, kWidth, 300)];
+//                _noaddress.delegate = self;
+//                [_noaddress show];
+//            }else
+//            {
+//                [_noaddress show];
+//            }
+//        }else
+//        {
+//            if (_wuliuView) {
+//                [self clickWuliu];
+//                _wuliuView.data = _address;
+//            }
+//        }
+        
+        if (_selectedBtn.tag == KWuliu) {
+            if (_address == nil) {
+                if (!_noaddress) {
+                    _noaddress = [[NoAddressView alloc] initWithFrame:Rect(0, 0, kWidth, 300)];
+                    _noaddress.delegate = self;
+                    [_noaddress show];
+                }else
+                {
+                    [_noaddress show];
+                }
             }else
             {
-                [_noaddress show];
+                [self clickWuliu];
+//                _wuliuView.data = _address;
             }
         }
     }
@@ -86,7 +111,7 @@
     [super viewDidLoad];
     self.title = @"确认订单";
     _type = @"0";
-    
+    _payMethod = 1;//默认是微信
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kWidth, KContentH)];
     [self.view addSubview:scroll];
     scroll.showsHorizontalScrollIndicator = NO;
@@ -340,8 +365,9 @@
     _checkBtn = checkBtn;
     
     //支付方式
-    UseStyleView *pay = [[UseStyleView alloc] initWithFrame:Rect(startX, CGRectGetMaxY(checkBtn.frame)+ 10, 200, 80) userStyle:2];
+    UseStyleView *pay = [[UseStyleView alloc] initWithFrame:Rect(startX, CGRectGetMaxY(checkBtn.frame)+ 10, kWidth - startX, 80) userStyle:2];
     pay.delegate = self;
+    pay.backgroundColor = [UIColor clearColor];
     [_backScroll addSubview:pay];
     _pay = pay;
     
@@ -361,6 +387,12 @@
 -(void)UserStyleWithIndex:(NSInteger)index
 {
     NSLog(@"支付方式第%ld",index);
+    if (index == 0) {
+        _payMethod = 1;
+    }else
+    {
+        _payMethod = 0;
+    }
 }
 
 #pragma mark 红包点击
@@ -409,11 +441,14 @@
     NSString *type = [NSString stringWithFormat:@"%ld",(long)_selectedBtn.tag - KStartTag];
 
     NSString *address_id = _address.ID;
-    NSString *pay_methord = @"0";
+    NSString *pay_methord = [NSString stringWithFormat:@"%ld",_payMethod];
 
     NSString *coupon_id = @"2";
     NSString *total_price  = [NSString stringWithFormat:@"%f",totalP];
     NSString *use_virtual = @"0";
+    if (_checkBtn.selected == YES) {
+        use_virtual = @"1";;
+    }
     
     NSDictionary *parms = [NSDictionary dictionaryWithObjectsAndKeys:parm,@"products",type,@"express",address_id,@"address_id",pay_methord,@"pay_method",coupon_id,@"coupon_id",total_price,@"total_price",use_virtual,@"use_virtual",nil];
     
@@ -442,6 +477,51 @@
     [self styleBtnClicked:btn];
 }
 
+#pragma mark 点击物流
+-(void) clickWuliu
+{
+    UIButton *btn  = (UIButton *)[_backScroll viewWithTag:KWuliu];
+//    btn.selected  = YES;
+    
+    _type = @"1";
+    [_selfView removeFromSuperview];
+    
+    wuliuY = CGRectGetMaxY(_style.frame) + 10;
+    WuliuView *wuliu = [[WuliuView alloc] initWithFrame:Rect(KStartX, wuliuY, kWidth - KStartX * 2, 150) withBlock:^{
+        //收货地址
+        SelectAddressController *sa = [[SelectAddressController alloc] init];
+        [self.navigationController pushViewController:sa animated:YES];
+    }];
+    wuliu.data = _address;
+    [_backScroll addSubview:wuliu];
+    _wuliuView = wuliu;
+    
+    CGRect hongbaoRect = _useHongbao.frame;
+    hongbaoRect.origin.y = CGRectGetMaxY(wuliu.frame) + 10;
+    _useHongbao.frame = hongbaoRect;
+    
+    CGRect useRect = _use.frame;
+    useRect.origin.y = CGRectGetMaxY(wuliu.frame) + 10;
+    _use.frame = useRect;
+    
+    CGRect conRect = _consume.frame;
+    conRect.origin.y = CGRectGetMaxY(_use.frame) + 10;
+    _consume.frame = conRect;
+    
+    CGRect checkRect = _checkBtn.frame;
+    checkRect.origin.y = conRect.origin.y + 2;
+    _checkBtn.frame = checkRect;
+    
+    CGRect payRect = _pay.frame;
+    payRect.origin.y = CGRectGetMaxY(_checkBtn.frame) + 10;
+    _pay.frame = payRect;
+    [UIView animateWithDuration:0.5 animations:^{
+        _selectedBackView.frame = btn.frame;
+    }];
+    _backScroll.contentSize = CGSizeMake(kWidth, CGRectGetMaxY(_pay.frame) + 10);
+    
+    
+}
 #pragma mark 使用收入消费
 -(void)chenkClicked:(UIButton *)btn
 {
@@ -459,6 +539,8 @@
 - (void)add
 {
     [_noaddress dismiss];
+     //这里设置是从确认订单页面进入增加地址的
+    [SystemConfig sharedInstance].isFormConformOrder = YES;
     AddAddressController *add = [[AddAddressController alloc] init];
     [self.navigationController pushViewController:add animated:YES];
 }

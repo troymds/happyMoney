@@ -12,7 +12,7 @@
 #import "OrderListAddressModel.h"
 #import "SystemConfig.h"
 #import "UserItem.h"
-
+#import "Tool.h"
 
 @interface OrderDetailController ()
 {
@@ -111,7 +111,7 @@
     [_backScroll addSubview:time];
     time.textColor = HexRGB(0x808080);
     time.font = [UIFont systemFontOfSize:14.0];
-    time.text = [NSString stringWithFormat:@"下单时间：%@",_data.post_time];
+    time.text = [NSString stringWithFormat:@"下单时间: %@",[Tool getShortTimeFrom:_data.post_time]];
     _time = time;
     
     CGFloat typeX = kWidth - startXY - 60;
@@ -159,7 +159,8 @@
     totalNum.text = [NSString stringWithFormat:@"共%@件",_data.total_num];
     _totalNum = totalNum;
     
-    UILabel *totalCount = [[UILabel alloc] initWithFrame:Rect(CGRectGetMaxX(totalNum.frame) + 20, totalY, 60, totalH)];
+    CGFloat totalx = kWidth - 110;
+    UILabel *totalCount = [[UILabel alloc] initWithFrame:Rect(totalx, totalY, 60, totalH)];
     [bottomView addSubview:totalCount];
     totalCount.textColor = HexRGB(0x808080);
     totalCount.font = [UIFont systemFontOfSize:PxFont(Font20)];
@@ -168,7 +169,7 @@
     UILabel *mone = [[UILabel alloc] initWithFrame:Rect(CGRectGetMaxX(totalCount.frame) - 5, totalY, 90, totalH)];
     [bottomView addSubview:mone];
     mone.textColor = HexRGB(0x3a3a3a);
-    mone.font = [UIFont systemFontOfSize:PxFont(Font24)];
+    mone.font = [UIFont systemFontOfSize:PxFont(Font22)];
     mone.text = [NSString stringWithFormat:@"¥ %@",_data.order_price];
     _mone = mone;
     
@@ -235,7 +236,11 @@
     icon.layer.masksToBounds = YES;
     icon.layer.cornerRadius = iconWH/2;
     _icon = icon;
-    [_icon setImageWithURL:[NSURL URLWithString:[SystemConfig sharedInstance].user.avatar] placeholderImage:placeHoderImage];
+    NSString *avata = [SystemConfig sharedInstance].user.avatar;
+    if ([avata isKindOfClass:[NSNull class]]) {
+        avata = @"default";
+    }
+    [_icon setImageWithURL:[NSURL URLWithString:avata] placeholderImage:placeHoderImage];
     
     //2 nick name
     CGFloat nickX = CGRectGetMaxX(icon.frame) + 10;
@@ -254,7 +259,7 @@
     [_backScroll addSubview:dateLB];
     dateLB.textColor = HexRGB(0x808080);
     dateLB.font = [UIFont systemFontOfSize:14.0];
-    dateLB.text = [NSString stringWithFormat:@"%@",_data.post_time];
+    dateLB.text = [NSString stringWithFormat:@"下单时间: %@",[Tool getShortTimeFrom:_data.post_time]];
     _dateLB = dateLB;
     
     //4 first line
