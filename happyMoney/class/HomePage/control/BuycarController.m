@@ -73,6 +73,10 @@
 #pragma mark 没有数据时显示
 - (void)showNoData
 {
+    CGRect scrollFrame = _tableView.frame;
+    scrollFrame.size.height = KAppNoTabHeight;
+    _tableView.frame = scrollFrame;
+    
     CGFloat imgWH = 105;
     if (!_nodataImg) {
         _nodataImg = [[UIImageView alloc] initWithFrame:Rect(0, 0, imgWH, imgWH)];
@@ -291,18 +295,28 @@
 #pragma mark 删除
 -(void)deleteAction
 {
-    //遍历数组，删除选中的数据，刷新页面
-    NSMutableArray *temDeleteArray = [NSMutableArray array];
-    for (int i = 0; i < _dataList.count; i++) {
-        ProductDetailModel *data = _dataList[i];
-        if (data.isChosen) {
-            [temDeleteArray addObject:data];
+    UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"是否删除购物车数据？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+#pragma mark alertView_delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1){
+        
+        //遍历数组，删除选中的数据，刷新页面
+        NSMutableArray *temDeleteArray = [NSMutableArray array];
+        for (int i = 0; i < _dataList.count; i++) {
+            ProductDetailModel *data = _dataList[i];
+            if (data.isChosen) {
+                [temDeleteArray addObject:data];
+            }
         }
-    }
-    [[CarTool sharedCarTool] deleteDataWithArray:temDeleteArray];
-    [_tableView reloadData];
-    if (_dataList.count == 0) {
-        [self caculate];
+        [[CarTool sharedCarTool] deleteDataWithArray:temDeleteArray];
+        [_tableView reloadData];
+        if (_dataList.count == 0) {
+            [self caculate];
+        }
     }
 }
 

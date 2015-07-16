@@ -15,4 +15,5 @@
 @property (nonatomic, assign) id<RegisterDelegate> delegate;
 @property (nonatomic, strong) MDSTextField *contact; //联系人
 @property (nonatomic, strong) MDSTextField *unickNum;//身份证
+@property (nonatomic, assign) CGFloat contentHeight;//动态高度
 @end

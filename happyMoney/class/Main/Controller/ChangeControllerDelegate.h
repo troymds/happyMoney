@@ -11,7 +11,9 @@
 @protocol ChangeControllerDelegate <NSObject>
 
 @optional
-
+//跳到财富树
 - (void)changeController;
 
+//跳到首页
+-(void)ChangeToHomePage;
 @end

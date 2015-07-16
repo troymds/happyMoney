@@ -12,6 +12,9 @@
 #import "LoginController.h"
 #import "ImageTextView.h"
 #import "Tool.h"
+#import "SystemConfig.h"
+#import "UserItem.h"
+#import "CompleteInforControl.h"
 
 #define KStartY   20 //起始Y坐标（状态栏高度）
 #define KStartX   10
@@ -276,11 +279,51 @@
             if (code == 100) {
 //                NSString *registID = [[JSON objectForKey:@"response"] objectForKey:@"data"];
                 [RemindView showViewWithTitle:@"注册成功" location:MIDDLE];
-                [self.navigationController popViewControllerAnimated:YES];
+                //注册成功后先自动登录，再去完善资料
+                
+                NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+                [user setObject:_phone.imgField.textField.text forKey:Account];
+                [user setObject:_passWord.imgField.textField.text forKey:Password];
+                [user setObject:@"1" forKey:quitLogin]; //1表示没有已经登录，没有退出
+                //            [user setObject:@"2" forKey:UserType];
+                [user synchronize];
+                
+                [self autoLogin];
+                
             }else
             {
                 NSString *msg = [[JSON objectForKey:@"response"] objectForKey:@"msg"];
                 [RemindView showViewWithTitle:msg location:MIDDLE];
+            }
+        } failure:^(NSError *error) {
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [RemindView showViewWithTitle:offline location:MIDDLE];
+        }];
+    }
+}
+
+#pragma mark 自动登录
+-(void)autoLogin
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *account = [user objectForKey:Account];
+    NSString *password = [user objectForKey:Password];
+//    NSString *type = [user objectForKey:UserType];
+    NSInteger isQuit = [[user objectForKey:quitLogin] integerValue];
+    if (account && password && isQuit == 1) {
+        NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:account,@"phone_num",password,@"password", nil];
+        [HttpTool postWithPath:@"login" params:param success:^(id JSON, int code) {
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSDictionary *response = [JSON objectForKey:@"response"];
+            if (code == 100) {
+                UserItem *item = [[UserItem alloc] initWithDic:[response objectForKey:@"data"]];
+                //单例存储用户相关信息
+//                [SystemConfig sharedInstance].userType = [type intValue];
+                [SystemConfig sharedInstance].isUserLogin = YES;
+                [SystemConfig sharedInstance].user = item;
+                
+                CompleteInforControl *ctl = [[CompleteInforControl alloc] init];
+                [self.navigationController pushViewController:ctl animated:YES];
             }
         } failure:^(NSError *error) {
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];

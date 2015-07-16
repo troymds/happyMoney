@@ -120,7 +120,7 @@
     
     //2 产品图片
     UIImageView *productView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    productView.frame = Rect(0, 0, kWidth, 120);
+    productView.frame = Rect(0, 0, kWidth, 200);
     productView.backgroundColor  = [UIColor clearColor];
     [_backScroll addSubview:productView];
     [productView setImageWithURL:[NSURL URLWithString:_detail.image] placeholderImage:[UIImage imageNamed:@""]];
@@ -129,13 +129,15 @@
     CGFloat startX = 20;
     UILabel *title = [[UILabel alloc] init];
     CGFloat titleY = CGRectGetMaxY(productView.frame) + 10;
-    title.frame = Rect(startX, titleY, 100, 20);
+    CGFloat titleW = kWidth - startX - 20;
+    title.frame = Rect(startX, titleY, titleW, 30);
     title.text = _detail.name;
     title.backgroundColor = [UIColor clearColor];
     title.textColor = HexRGB(0x3a3a3a);
     title.font = [UIFont boldSystemFontOfSize:PxFont(Font24)];
     [_backScroll addSubview:title];
-    
+    title.adjustsFontSizeToFitWidth = YES;
+    title.numberOfLines = 2;
     //3 现价
     UILabel *newPrice = [[UILabel alloc] init];
     CGFloat newPriceY = CGRectGetMaxY(title.frame) + 10;

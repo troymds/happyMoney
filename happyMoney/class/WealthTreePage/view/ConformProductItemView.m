@@ -27,14 +27,19 @@
         
         // product name
         _productName = [[UILabel alloc] init];
+        CGFloat priceX = frame.size.width - 70;
+        
         [self addSubview:_productName];
         CGFloat productNameX = CGRectGetMaxX(_icon.frame) + 5;
+        CGFloat productW = priceX - productNameX;
         CGFloat labelH = iconH/2;
-        _productName.frame  = Rect(productNameX, startX, 100, labelH);
+        _productName.frame  = Rect(productNameX, startX, productW, labelH );
         _productName.font = [UIFont systemFontOfSize:PxFont(Font24)];
         _productName.textColor = HexRGB(0x3a3a3a);
-        
+        _productName.numberOfLines = 2;
+        _productName.adjustsFontSizeToFitWidth = YES;
         // buy num
+        
         _buyNum = [[UILabel alloc] init];
         [self addSubview:_buyNum];
         CGFloat buyNumY = CGRectGetMaxY(_productName.frame);
@@ -46,7 +51,7 @@
         // price
         _price= [[UILabel alloc] init];
         [self addSubview:_price];
-        CGFloat priceX = frame.size.width - 70;
+        
         _price.frame  = Rect(priceX, startX, 100, labelH);
         _price.font = [UIFont systemFontOfSize:PxFont(Font24)];
         _price.textColor = HexRGB(0x808080);

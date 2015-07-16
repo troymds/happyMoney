@@ -41,7 +41,12 @@
         CGFloat headY = 20;
         
         CGFloat headCenterX = kWidth/2;
-        CGFloat headCenterY = headY + imgH/2 + 20;
+        
+        CGFloat headCenterY = headY + imgH/2 + 10;
+        
+        if ([SystemConfig sharedInstance].isUserLogin && [[SystemConfig sharedInstance].user.type isEqualToString:@"1"]) {
+            headCenterY += 20;
+        }
         UIImageView *head = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imgW, imgH)];
         CGPoint headCenter = CGPointMake(headCenterX, headCenterY);
         head.center = headCenter;
@@ -153,11 +158,11 @@
         [_head setImageWithURL:[NSURL URLWithString:avata] placeholderImage:placeHoderImage];
         _nickName.hidden = NO;
         _nickName.text = [SystemConfig sharedInstance].user.userName;
-        [_bones setText:@"红包领取码：562425"];
+        [_bones setText:[NSString stringWithFormat:@"红包领取码：%@",[SystemConfig sharedInstance].user.invite_code]];
     }else
     {
         CGRect iconRect = headOldFrame;
-        iconRect.origin.y += 20;
+        iconRect.origin.y += 10;
         _head.frame = iconRect;
         
         _login.hidden = NO;

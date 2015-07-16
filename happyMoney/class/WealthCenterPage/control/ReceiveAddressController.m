@@ -189,7 +189,7 @@
         _hit2.font = [UIFont systemFontOfSize:PxFont(Font22)];
         _hit2.textColor = HexRGB(0x3a3a3a);
     }
-    _hit.text = @"您还没有添加任何收获信息，";
+    _hit.text = @"您还没有添加任何收货信息，";
     _hit2.text = @"请点击右上角图标进行添加哦!";
     _nodataImg.hidden = NO;
     _hit.hidden = NO;

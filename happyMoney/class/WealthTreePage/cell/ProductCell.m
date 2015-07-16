@@ -70,12 +70,14 @@
     
     imgH = imgW / 2;
     imgH = imgW ;
+
     _icon.frame = Rect(leftDistence, leftDistence, imgW, imgH);
     CGFloat space = 3;
     
     CGFloat productNameX = CGRectGetMaxX(_icon.frame) + 10;
     CGFloat labelH = (imgH - space)/3;
-    _productName.frame  = Rect(productNameX, leftDistence, 100, labelH);
+    CGFloat labelW = kWidth - productNameX - 20;
+    _productName.frame  = Rect(productNameX, leftDistence, labelW, labelH);
     
     CGFloat priceY = CGRectGetMaxY(_productName.frame) + space;
     _price.frame  = Rect(productNameX, priceY, 100, labelH);

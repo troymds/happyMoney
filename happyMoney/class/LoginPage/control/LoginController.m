@@ -140,12 +140,13 @@
 #pragma mark 立即登录
 -(void) loginNow
 {
+    [self.view endEditing:YES];
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.dimBackground = NO;
-    
-    //    NSLog(@"_phone.imgField%@",_phone.imgField.textField.text);
+
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_phone.imgField.textField.text,@"phone_num",_password.imgField.textField.text,@"password", nil];
-    NSLog(@"%@",params);
+//    NSLog(@"%@",params);
     [HttpTool postWithPath:@"login" params:params success:^(id JSON, int code) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         //            [RemindView showViewWithTitle:addAddressSuccess location:MIDDLE];
@@ -157,10 +158,6 @@
             
             //存储用户信息 并归档
             UserItem *item = [[UserItem alloc] initWithDic:data];
-            //            item.userType = @"2";
-            //            UserDataModelSingleton *dm = [UserDataModelSingleton shareInstance];
-            //            dm.userItem = item;
-            //            [dm archive];
             
             NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
             [user setObject:_phone.imgField.textField.text forKey:Account];

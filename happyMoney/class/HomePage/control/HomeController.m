@@ -24,6 +24,7 @@
 #import "SystemConfig.h"
 #import "LoginController.h"
 #import "UserItem.h"
+#import "CheckRecordsController.h"
 
 //#define KMenuButtonW 143 //菜单按钮宽度
 
@@ -56,8 +57,9 @@
 {
     if (_backScroll) {
         [_backScroll removeFromSuperview];
-//        [self initBackView];
         [self loadData];
+        //重设UI数据
+        
     }
 }
 
@@ -72,7 +74,41 @@
 //    [SystemConfig sharedInstance].userType = 1; //1 普通用户 ，2 商家
 //    [self initBackView];
     //3 load data
-    [self loadData];
+    [self autoLogin];
+}
+
+#pragma mark 自动登录
+-(void)autoLogin
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *account = [user objectForKey:Account];
+    NSString *password = [user objectForKey:Password];
+    NSString *type = [user objectForKey:UserType];
+    NSInteger isQuit = [[user objectForKey:quitLogin] integerValue];
+    if (account && password && isQuit == 1) {
+        NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:account,@"phone_num",password,@"password",type,@"type", nil];
+        [HttpTool postWithPath:@"login" params:param success:^(id JSON, int code) {
+            NSLog(@"%@",JSON);
+            NSDictionary *response = [JSON objectForKey:@"response"];
+            if (code == 100) {
+                UserItem *item = [[UserItem alloc] initWithDic:[response objectForKey:@"data"]];
+                //单例存储用户相关信息
+                [SystemConfig sharedInstance].userType = [type intValue];
+                [SystemConfig sharedInstance].isUserLogin = YES;
+                //                [SystemConfig sharedInstance].uid = item.uid;
+                [SystemConfig sharedInstance].user = item;
+                //                [SystemConfig sharedInstance].isUserLogin = NO;
+                
+                [self loadData];
+            }
+        } failure:^(NSError *error) {
+//            [RemindView showViewWithTitle:offline location:MIDDLE];
+            [self loadData];
+        }];
+    }else
+    {
+        [self loadData];
+    }
 }
 
 -(void)loadData
@@ -148,6 +184,8 @@
     {
         //间接会员
     }
+    CheckRecordsController *ctl = [[CheckRecordsController alloc] init];
+    [self.navigationController pushViewController:ctl animated:YES];
 }
 
 #pragma mark 分类按钮点击
@@ -246,10 +284,16 @@
     CGFloat viewH = 0;
     CGFloat menuBtnMaxY = 0;
     
-    NSArray *menuTitles = @[@"收益结算",@"直接会员",@"间接会员"];
+    NSArray *menuTitles = @[@"收益结算",@"一级供应商",@"二级供应商"];
     NSArray *iconTitles = @[@"首页2_10",@"首页2_12",@"首页2_14"];
     
-    NSArray *nums = @[_relation.profit,_relation.first_num,_relation.second_num];
+    NSArray *nums = nil;
+    if ([SystemConfig sharedInstance].isUserLogin) {
+        nums = @[_relation.profit,_relation.first_num,_relation.second_num];
+    }else
+    {
+        nums = @[@"0",@"0",@"0"];
+    }
 
     for (int i = 0; i < menuTitles.count; i++) {
         CGRect rect = CGRectMake(startX + (menuW + KMiddle) * i, menuY, menuW, menuH);
@@ -313,7 +357,7 @@
     if (_bannerView) {
         [_bannerView removeFromSuperview];
         _bannerView = nil;
-        _bannerView =[[KDCycleBannerView alloc] initWithFrame:CGRectMake(0, 0,kWidth,160)];
+        _bannerView =[[KDCycleBannerView alloc] initWithFrame:CGRectMake(0, 0,kWidth,140)];
         _bannerView.backgroundColor = [UIColor clearColor];
         _bannerView.datasource = self;
         _bannerView.delegate = self;
@@ -322,7 +366,7 @@
         [_backScroll addSubview:_bannerView];
     }else
     {
-        _bannerView =[[KDCycleBannerView alloc] initWithFrame:CGRectMake(0, 0,kWidth,160)];
+        _bannerView =[[KDCycleBannerView alloc] initWithFrame:CGRectMake(0, 0,kWidth,140)];
         _bannerView.backgroundColor = [UIColor clearColor];
         _bannerView.datasource = self;
         _bannerView.delegate = self;

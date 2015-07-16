@@ -18,6 +18,7 @@
 #import "ProAlertView.h"
 #import "MainController.h"
 #import "CarTool.h"
+#import "LoginController.h"
 
 @interface MySettingController ()<ProAlertViewDelegate>
 {
@@ -113,12 +114,12 @@
         UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         exitBtn.frame = Rect(startXY, CGRectGetMaxY(sectionViewTwo.frame) + startXY, kWidth - startXY * 2, 40);
         [exitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-        exitBtn.backgroundColor = ButtonColor;
+        exitBtn.backgroundColor = [UIColor clearColor];
         exitBtn.layer.masksToBounds = YES;
         exitBtn.layer.cornerRadius = 5.0f;
-//        exitBtn.layer.borderColor = [UIColor greenColor].CGColor;
-//        exitBtn.layer.borderWidth = 1.0;
-        [exitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        exitBtn.layer.borderColor = ButtonColor.CGColor;
+        exitBtn.layer.borderWidth = 1.0;
+        [exitBtn setTitleColor:ButtonColor forState:UIControlStateNormal];
         [scroll addSubview:exitBtn];
         [exitBtn addTarget:self action:@selector(exitLogin) forControlEvents:UIControlEventTouchUpInside];
         scroll.contentSize = CGSizeMake(0, CGRectGetMaxY(exitBtn.frame) + 10) ;
@@ -138,44 +139,51 @@
 
 -(void)settingBtn:(UIButton *)btn
 {
-    switch (btn.tag) {
-        case 0:
-        {
-            ModifyInfoController *mi = [[ModifyInfoController alloc] init];
-            [self.navigationController pushViewController:mi animated:YES];
+    if (![SystemConfig sharedInstance].isUserLogin) {
+        LoginController *log = [[LoginController alloc] init];
+        self.navigationController.navigationBar.hidden = NO;
+        [self.navigationController pushViewController:log animated:YES];
+    }else
+    {
+        switch (btn.tag) {
+            case 0:
+            {
+                ModifyInfoController *mi = [[ModifyInfoController alloc] init];
+                [self.navigationController pushViewController:mi animated:YES];
+            }
+                break;
+            case 1:
+            {
+                ChangePassWordController *cw = [[ChangePassWordController alloc] init];
+                [self.navigationController pushViewController:cw animated:YES];
+            }
+                break;
+            case 2:
+            {
+                AboutUsController *au = [[AboutUsController alloc] init];
+                [self.navigationController pushViewController:au animated:YES];
+            }
+                break;
+            case 3:
+            {
+                [self clearCaches];
+            }
+                break;
+            case 4:
+            {
+                FeedBackController *fb = [[FeedBackController alloc] init];
+                [self.navigationController pushViewController:fb animated:YES];
+            }
+                break;
+            case 5:
+            {
+                //检查版本更新
+                [self checkVerson];
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        case 1:
-        {
-            ChangePassWordController *cw = [[ChangePassWordController alloc] init];
-            [self.navigationController pushViewController:cw animated:YES];
-        }
-            break;
-        case 2:
-        {
-            AboutUsController *au = [[AboutUsController alloc] init];
-            [self.navigationController pushViewController:au animated:YES];
-        }
-            break;
-        case 3:
-        {
-            [self clearCaches];
-        }
-            break;
-        case 4:
-        {
-            FeedBackController *fb = [[FeedBackController alloc] init];
-            [self.navigationController pushViewController:fb animated:YES];
-        }
-            break;
-        case 5:
-        {
-            //检查版本更新
-            [self checkVerson];
-        }
-            break;
-        default:
-            break;
     }
 }
 
@@ -244,8 +252,8 @@
     }else if (alertView.tag == 1001)
     {
         if (index ) {
-            MainController *rc= [[MainController alloc] init];
-            self.view.window.rootViewController = rc;
+//            MainController *rc= [[MainController alloc] init];
+//            self.view.window.rootViewController = rc;
             
             //清空用户存储的所有数据  以后处理
             [SystemConfig sharedInstance].isUserLogin = NO;
@@ -255,8 +263,9 @@
             //        [user removeObjectForKey:Account];
             //        [user removeObjectForKey:Password];
             [user setObject:@"0" forKey:quitLogin];//退出登录, 0 表示已经退出了
+            [self.navigationController popToRootViewControllerAnimated:YES];
             //清空购物车
-            [[CarTool sharedCarTool] clear];
+//            [[CarTool sharedCarTool] clear];
             //        [user removeObjectForKey:UserType];
         }
     }

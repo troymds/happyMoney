@@ -29,23 +29,30 @@
         
         //2 product name
         _productName = [[UILabel alloc] init];
+        CGFloat priceW = 80;
+        CGFloat priceX = kWidth - 10 - priceW + 40;
+        
         [self addSubview:_productName];
         CGFloat productNameX = CGRectGetMaxX(_icon.frame) + 10;
         CGFloat space = 5;
         CGFloat labelH = (imgH - space)/2;
-        _productName.frame  = Rect(productNameX, leftDistence, 100, labelH);
+        CGFloat proW = priceX - productNameX - 25;
+        _productName.frame  = Rect(productNameX, leftDistence, proW, labelH);
         _productName.textColor = HexRGB(0x3a3a3a);
         _productName.font = [UIFont systemFontOfSize:PxFont(Font24)];
+        _productName.backgroundColor = [UIColor clearColor];
+        _productName.numberOfLines = 2;
+        _productName.adjustsFontSizeToFitWidth = YES;
         
         //3 product price
         _price = [[UILabel alloc] init];
         [self addSubview:_price];
         CGFloat priceY = leftDistence;
-        CGFloat priceW = 80;
-        CGFloat priceX = kWidth - 10 - priceW + 40;
+        
         _price.frame  = Rect(priceX, priceY, priceW, labelH);
         _price.textColor = HexRGB(0x808080);
         _price.font = [UIFont systemFontOfSize:PxFont(Font22)];
+        _price.backgroundColor = [UIColor clearColor];
         
         //4 product saleNum
         _saleNum = [[UILabel alloc] init];
@@ -54,7 +61,8 @@
         _saleNum.frame  = Rect(productNameX, saley, 100, labelH);
         _saleNum.textColor = HexRGB(0x808080);
         _saleNum.font = [UIFont systemFontOfSize:PxFont(Font22)];
-
+        _saleNum.backgroundColor = [UIColor clearColor];
+        
         UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
         [self addSubview:line];
         line.backgroundColor = HexRGB(KCellLineColor);

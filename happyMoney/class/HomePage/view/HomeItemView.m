@@ -37,9 +37,12 @@
         
         CGFloat titleH = iconW / 2;
         //3 title
+        CGFloat titleW = frame.size.width;
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont systemFontOfSize:PxFont(Font20)];
-        titleLabel.frame = Rect(leftSpace - 8, CGRectGetMaxY(iconView.frame), 100, titleH);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.frame = Rect(0, CGRectGetMaxY(iconView.frame), titleW, titleH);
+//        titleLabel.frame = Rect(leftSpace - 8, CGRectGetMaxY(iconView.frame), 100, titleH);
         titleLabel.textColor = HexRGB(0x3a3a3a);
         titleLabel.backgroundColor = [UIColor clearColor];
 //        titleLabel.center = CGPointMake(iconView.center.x, iconView.center.y);
@@ -51,7 +54,9 @@
         UILabel *numLabel = [[UILabel alloc] init];
         numLabel.font = [UIFont systemFontOfSize:PxFont(Font20)];
         numLabel.textColor = HexRGB(0x3a3a3a);
-        numLabel.frame = Rect(frame.size.width/2 - 8, CGRectGetMaxY(titleLabel.frame) - 5, 60, titleH);
+        numLabel.textAlignment = NSTextAlignmentCenter;
+        numLabel.frame = Rect(0, CGRectGetMaxY(titleLabel.frame) - 5, titleW, titleH);
+//        numLabel.frame = Rect(frame.size.width/2 - 8, CGRectGetMaxY(titleLabel.frame) - 5, 60, titleH);
 //        numLabel.center = CGPointMake(iconView.center.x, iconView.center.y);
         numLabel.text = num;
         numLabel.backgroundColor = [UIColor clearColor];

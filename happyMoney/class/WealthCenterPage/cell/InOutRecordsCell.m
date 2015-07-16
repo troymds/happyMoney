@@ -10,6 +10,7 @@
 #import "flowRecordModel.h"
 #import "SystemConfig.h"
 #import "UserItem.h"
+#import "Tool.h"
 
 @implementation InOutRecordsCell
 
@@ -123,7 +124,7 @@
     _title.frame = CGRectMake(titleX,startY,200,titleH);
     CGFloat dateY = CGRectGetMaxY(_title.frame) + spaceBteweenTitle;
     _date.frame = CGRectMake(titleX,dateY,200,titleH);
-    _date.text = data.time;
+    _date.text = [NSString stringWithFormat:@"%@",[Tool getShortTimeFrom:data.time]];
     CGFloat moneyW = 100;
     CGFloat moneyX = kWidth - moneyW + 30;
     CGFloat moneyY = dateY - 5;

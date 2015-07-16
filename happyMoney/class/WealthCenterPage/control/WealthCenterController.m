@@ -129,9 +129,18 @@
 -(void) cellBtnDown:(UIButton *)btn
 {
     if (![SystemConfig sharedInstance].isUserLogin) {
-        LoginController *log = [[LoginController alloc] init];
-        self.navigationController.navigationBar.hidden = NO;
-        [self.navigationController pushViewController:log animated:YES];
+        //设置页面可以进,没有登录时默认是游客，所以第六个就是需要登录
+        NSInteger selectedBtn = btn.tag - 1000;
+        if  (selectedBtn == 6) {
+            MySettingController *ms = [[MySettingController alloc] init];
+            [self.navigationController pushViewController:ms animated:YES];
+           
+        }else
+        {
+            LoginController *log = [[LoginController alloc] init];
+            self.navigationController.navigationBar.hidden = NO;
+            [self.navigationController pushViewController:log animated:YES];
+        }
     
     }else
     {

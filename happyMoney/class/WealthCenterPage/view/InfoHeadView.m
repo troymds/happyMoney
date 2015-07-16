@@ -15,6 +15,7 @@
 {
     UIImageView *_head;
     UILabel *_nickName;
+    UILabel *_code;
 }
 
 @end
@@ -45,7 +46,7 @@
         _head = icon;
         [_head setImage:LOADPNGIMAGE(@"default")];
         //3 name
-        CGFloat nameX = CGRectGetMaxX(icon.frame) + 10;
+        CGFloat nameX = CGRectGetMaxX(icon.frame) + 20;
         CGFloat nameSpace = icomWH/5;
         CGFloat nameY = startX + nameSpace;
         CGFloat spceBetweenTitle = 10;
@@ -53,7 +54,7 @@
         UILabel *name = [[UILabel alloc] initWithFrame:Rect(nameX, nameY, 200, titleH)];
         [self addSubview:name];
         name.text = @"欧巴";
-        name.font = [UIFont systemFontOfSize:24.0];
+        name.font = [UIFont systemFontOfSize:20.0];
         name.backgroundColor = [UIColor clearColor];
         _nickName = name;
         
@@ -62,15 +63,16 @@
         UILabel *code = [[UILabel alloc] initWithFrame:Rect(nameX, codeY, frame.size.width - nameX, titleH)];
         [self addSubview:code];
         code.text = @"邀请码：5656565";
-        code.font = [UIFont systemFontOfSize:18.0];
+        code.font = [UIFont systemFontOfSize:16.0];
         code.backgroundColor  = [UIColor clearColor];
+        _code = code;
         
         if ([SystemConfig sharedInstance].isUserLogin) {
             NSString *avata = [SystemConfig sharedInstance].user.avatar;
             if ([avata isKindOfClass:[NSNull class]]) {
                 avata = @"default";
             }
-            
+            [_code setText:[NSString stringWithFormat:@"邀请码：%@",[SystemConfig sharedInstance].user.invite_code]];
             [_head setImageWithURL:[NSURL URLWithString:avata] placeholderImage:placeHoderImage];
             _nickName.text = [SystemConfig sharedInstance].user.userName;
         }else
@@ -88,6 +90,7 @@
         if ([avata isKindOfClass:[NSNull class]]) {
             avata = @"default";
         }
+        [_code setText:[NSString stringWithFormat:@"邀请码：%@",[SystemConfig sharedInstance].user.invite_code]];
         [_head setImageWithURL:[NSURL URLWithString:avata] placeholderImage:placeHoderImage];
         _nickName.text = [SystemConfig sharedInstance].user.userName;
     }else

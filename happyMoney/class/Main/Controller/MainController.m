@@ -139,6 +139,11 @@
     }
 }
 
+- (void)ChangeToHomePage
+{
+    
+}
+
 - (void)backItem
 {
     [self.childViewControllers[_dock.selectedIndex] popViewControllerAnimated:YES];

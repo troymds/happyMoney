@@ -17,6 +17,7 @@
     InfoHeadView *_head;
     UILabel *_nickName;
     UILabel *_address;
+    UILabel *_alipay;
 }
 @end
 
@@ -50,10 +51,10 @@
     [rightBtn setTitle:@"修改" forState:UIControlStateNormal];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:PxFont(Font20)];
     [rightBtn addTarget:self action:@selector(changeInfo) forControlEvents:UIControlEventTouchUpInside];
-    rightBtn.frame = Rect(0, 0, 80, 30);
+    rightBtn.frame = Rect(0, 0, 60, 30);
     UIBarButtonItem *rehtnItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rehtnItem;
-    
+    rightBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30);
     //1 head view
     CGFloat startXY = 10;
     CGFloat backH = 196/2;
@@ -67,7 +68,7 @@
     CGFloat inforY = CGRectGetMaxY(headView.frame) + startXY;
     int isService =  [[SystemConfig sharedInstance].user.type intValue];
     
-    CGFloat spacer = 20;
+    CGFloat spacer = 10;
     
     if (isService != 0) {
         // info
@@ -96,13 +97,13 @@
         CGFloat eTextW = 80;
         for (int i = 0; i < 3; i++) {
             
-            UILabel *leftLb = [[UILabel alloc] initWithFrame:Rect(space - spacer, up + (eTextH + 1)*i, eTextW, eTextH)];
+            UILabel *leftLb = [[UILabel alloc] initWithFrame:Rect(space - spacer + 2, up + (eTextH + 1)*i, eTextW, eTextH)];
             [back addSubview:leftLb];
             leftLb.text = titles[i];
             leftLb.backgroundColor = [UIColor clearColor];
             leftLb.textAlignment = NSTextAlignmentRight;
-            
-            CGFloat textX = CGRectGetMaxX(leftLb.frame) + 15;
+//            [leftLb sizeToFit];
+            CGFloat textX = CGRectGetMaxX(leftLb.frame) + 13;
             UILabel *rightLb = [[UILabel alloc] initWithFrame:Rect(textX, up + (eTextH + 1)*i, backW - textX, eTextH)];
             [back addSubview:rightLb];
             rightLb.backgroundColor = [UIColor clearColor];
@@ -111,6 +112,7 @@
             if (i == 0) {
                 _address = rightLb;
             }
+            
             UIView *line = [[UIView alloc] init];
             [back addSubview:line];
             CGFloat lineY = (eTextH + 1) * (i + 1);
@@ -161,6 +163,10 @@
             rightLb.text = dates[i];
             if (i == 0) {
                 _nickName = rightLb;
+            }else if (i == 2)
+            {
+                _alipay = rightLb;
+                [rightLb sizeToFit];
             }
             UIView *line = [[UIView alloc] init];
             [back addSubview:line];

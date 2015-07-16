@@ -148,7 +148,14 @@
             }
             [_tableView reloadData];
             [refreshView endRefreshing];
+        }else
+        {
+            _footer.hidden = YES;
+            [refreshView endRefreshing];
+            NSString *str = [[JSON objectForKey:@"response"] objectForKey:@"msg"];
+            [RemindView showViewWithTitle:str location:MIDDLE];
         }
+
     } failure:^(NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [RemindView showViewWithTitle:offline location:MIDDLE];
@@ -197,7 +204,7 @@
     {
         requestSize = lastpageSize;
     }
-    NSDictionary *parm = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"page",[NSString stringWithFormat:@"%ld",requestSize],@"page_size",self.cateData.ID,@"category_id",sort,@"sort",nil];
+    NSDictionary *parm = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"page",[NSString stringWithFormat:@"%ld",(long)requestSize],@"page_size",self.cateData.ID,@"category_id",sort,@"sort",nil];
 //    NSLog(@"%@",sort);
     [HttpTool postWithPath:@"getProductList" params:parm success:^(id JSON, int code) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -229,6 +236,10 @@
             NSIndexPath * index = [NSIndexPath indexPathForRow:0 inSection:0];
             [_tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:NO];
 //            [self buildUI];
+        }else
+        {
+            NSString *str = [[JSON objectForKey:@"response"] objectForKey:@"msg"];
+            [RemindView showViewWithTitle:str location:MIDDLE];
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];

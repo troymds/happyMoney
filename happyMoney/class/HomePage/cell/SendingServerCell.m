@@ -49,6 +49,7 @@
         _nickName.textColor = HexRGB(0x808080);
         _nickName.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _nickName.text = [SystemConfig sharedInstance].user.userName;
+        _nickName.backgroundColor = [UIColor clearColor];
         
         //3 time
         _dateLB = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -56,6 +57,7 @@
         _dateLB.textColor = HexRGB(0x808080);
         _dateLB.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _dateLB.text = @"2013.08.98";
+        _dateLB.backgroundColor = [UIColor clearColor];
         
         //4 first line
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectZero];
@@ -75,12 +77,14 @@
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:total];
         total.text = @"总计：";
+        total.backgroundColor = [UIColor clearColor];
         total.textColor = HexRGB(0x808080);
         total.font = [UIFont systemFontOfSize:PxFont(Font22)];
         _total = total;
         
         _totalLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self addSubview:_totalLB];
+        _totalLB.backgroundColor = [UIColor clearColor];
         _totalLB.text = @"¥ 216";
         _totalLB.textColor = HexRGB(0x808080);
         _totalLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
@@ -95,17 +99,20 @@
         
         UILabel *typeLB = [[UILabel alloc] initWithFrame:CGRectZero];
         typeLB.textColor = HexRGB(0x808080);
+        typeLB.backgroundColor = [UIColor clearColor];
         typeLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         [self.contentView addSubview:typeLB];
         _typeLB = typeLB;
         
         _telLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_telLB];
+        _telLB.backgroundColor = [UIColor clearColor];
         _telLB.textColor = HexRGB(0x808080);
         _telLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         
         _addressLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_addressLB];
+        _addressLB.backgroundColor = [UIColor clearColor];
         _addressLB.textColor = HexRGB(0x808080);
         _addressLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         

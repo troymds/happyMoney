@@ -9,6 +9,7 @@
 #import "InviteFriendsController.h"
 #import "NewBroadCastController.h"
 #import "InviteFrdTwo.h"
+#import "ShareView.h"
 
 @interface InviteFriendsController ()
 
@@ -24,14 +25,14 @@
     self.view.backgroundColor = HexRGB(0xeeeeee);
     self.title = @"邀请好友";
     
-//    UIButton *rightBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [rightBtn setTitle:@"邀请" forState:UIControlStateNormal];
-//    rightBtn.titleLabel.font = [UIFont systemFontOfSize:PxFont(Font20)];
-//    [rightBtn addTarget:self action:@selector(invite) forControlEvents:UIControlEventTouchUpInside];
-//    rightBtn.frame = Rect(0, 0, 60, 30);
-//    
-//    UIBarButtonItem *rehtnItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
-//    self.navigationItem.rightBarButtonItem = rehtnItem;
+    UIButton *rightBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setTitle:@"分享" forState:UIControlStateNormal];
+    rightBtn.titleLabel.font = [UIFont systemFontOfSize:PxFont(Font20)];
+    [rightBtn addTarget:self action:@selector(invite) forControlEvents:UIControlEventTouchUpInside];
+    rightBtn.frame = Rect(0, 0, 60, 30);
+    
+    UIBarButtonItem *rehtnItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rehtnItem;
     
     UIImageView *icon = [[UIImageView alloc] initWithFrame:Rect(0, 0, kWidth, KAppNoTabHeight)];
     [self.view addSubview:icon];
@@ -71,8 +72,9 @@
 
 -(void)invite
 {
-    InviteFrdTwo *ctl = [[InviteFrdTwo alloc] init];
-    [self.navigationController pushViewController:ctl animated:YES];
+    [ShareView showViewWithTitle:@"红包领取码：562314" content:@"红包领取码：562314" description:@"红包领取码：562314" url:@"http://fish.ebingoo.com/" delegate:self];
+//    InviteFrdTwo *ctl = [[InviteFrdTwo alloc] init];
+//    [self.navigationController pushViewController:ctl animated:YES];
 }
 
 -(void)broadcastClicked

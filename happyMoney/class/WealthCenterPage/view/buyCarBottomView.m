@@ -41,6 +41,7 @@
         [self addSubview:money];
         money.text = @"¥ 216";
         _total = money;
+        [money sizeToFit];
         
         UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         CGFloat deleteY = 4;
@@ -52,8 +53,8 @@
         deleteBtn.layer.masksToBounds = YES;
         deleteBtn.layer.cornerRadius = 5.0;
         deleteBtn.layer.backgroundColor = ButtonColor.CGColor;
-        [deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-        _deletaBtn = deleteBtn;
+        [deleteBtn setTitle:@"去结算" forState:UIControlStateNormal];
+        _payBtn = deleteBtn;
         
         UIButton *payBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:payBtn];
@@ -62,8 +63,8 @@
         payBtn.layer.masksToBounds = YES;
         payBtn.layer.cornerRadius = 5.0;
         payBtn.layer.backgroundColor = ButtonColor.CGColor;
-        [payBtn setTitle:@"去结算" forState:UIControlStateNormal];
-        _payBtn = payBtn;
+        [payBtn setTitle:@"删除" forState:UIControlStateNormal];
+        _deletaBtn = payBtn;
         
     }
     return self;

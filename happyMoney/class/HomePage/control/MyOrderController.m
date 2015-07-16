@@ -111,13 +111,18 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, menuBackY,kWidth,KAppNoTabHeight - menuBackY) style:UITableViewStylePlain];
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        _tableView.backgroundColor = HexRGB(0xeeeeee);
+//        _tableView.backgroundColor = HexRGB(0xeeeeee);
+        if (IsIos7) {
+         _tableView.backgroundColor = HexRGB(0xeeeeee);
+        }else
+        {
+            _tableView.backgroundColor = [UIColor whiteColor];
+        }
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorColor = [UIColor clearColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_tableView];
     }
-    
 }
 
 #pragma mark 获取数据

@@ -75,7 +75,7 @@
     UITextView *textView = [[UITextView alloc] initWithFrame:Rect(textX, textY, tectW, textH)];
     [self.view addSubview:textView];
     textView.delegate = self;
-    textView.font = [UIFont systemFontOfSize:PxFont(Font22)];
+    textView.font = [UIFont systemFontOfSize:PxFont(Font20)];
     textView.backgroundColor = [UIColor whiteColor];
     textView.layer.masksToBounds = YES;
     textView.layer.cornerRadius = 5.0;
@@ -83,12 +83,12 @@
     
     CGFloat hitX = textX + 5;
     CGFloat hitW = tectW - hitX - 5;
-    UILabel *hit = [[UILabel alloc] initWithFrame:Rect(hitX, textY + 2, hitW, 40)];
+    UILabel *hit = [[UILabel alloc] initWithFrame:Rect(hitX, textY + 5, hitW, 40)];
     [self.view addSubview:hit];
     hit.text = @"请在这里写下您的宝贵意见，来帮助我们提供给您更好的服务";
     hit.numberOfLines = 0;
     hit.enabled = YES;
-    hit.font = [UIFont systemFontOfSize:PxFont(Font22)];
+    hit.font = [UIFont systemFontOfSize:PxFont(Font20)];
     hit.backgroundColor = [UIColor clearColor];
     hit.textColor = HexRGB(0x808080);
     _hit = hit;

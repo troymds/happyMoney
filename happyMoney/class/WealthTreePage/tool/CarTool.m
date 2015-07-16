@@ -7,6 +7,7 @@
 //
 
 #import "CarTool.h"
+
 #import "ProductDetailModel.h"
 
 @implementation CarTool
@@ -14,9 +15,13 @@ singleton_implementation(CarTool)
 
 - (id)init
 {
+//    NSString *useName = [[NSUserDefaults standardUserDefaults] objectForKey:Account];
+//    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@carMenu.data",useName]];
+
     if (self = [super init]) {
         // 1.加载沙盒中的购物车数据
-        _totalCarMenu = [NSKeyedUnarchiver unarchiveObjectWithFile:kFilePath];
+        NSString *file = kCarFilePath;
+        _totalCarMenu = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
         
         // 2.第一次没有购物车数据
         if (_totalCarMenu == nil) {
@@ -46,8 +51,8 @@ singleton_implementation(CarTool)
             //            NSLog(@"第一次增加的ID为%@的数量%d",menu.ID,menu.foodCount);
             [_totalCarMenu addObject:menu];
         }
-        
-        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:kFilePath];
+        NSString *file = kCarFilePath;
+        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:file];
     }
 }
 
@@ -71,8 +76,8 @@ singleton_implementation(CarTool)
             //NSLog(@"第一次增加的ID为%@的数量%d",menu.ID,menu.foodCount);
             [_totalCarMenu addObject:menu];
         }
-        
-        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:kFilePath];
+        NSString *file = kCarFilePath;
+        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:file];
     }
 }
 
@@ -94,7 +99,8 @@ singleton_implementation(CarTool)
                 }
             }
         }
-        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:kFilePath];
+        NSString *file = kCarFilePath;
+        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:file];
     }
 }
 
@@ -112,7 +118,8 @@ singleton_implementation(CarTool)
             }
         }
     }
-    [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:kFilePath];
+    NSString *file = kCarFilePath;
+    [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:file];
 }
 
 #pragma mark 清除购物车
@@ -120,7 +127,8 @@ singleton_implementation(CarTool)
 {
     if (_totalCarMenu) {
         [_totalCarMenu removeAllObjects];
-        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:kFilePath];
+        NSString *file = kCarFilePath;
+        [NSKeyedArchiver archiveRootObject:_totalCarMenu toFile:file];
     }
 }
 

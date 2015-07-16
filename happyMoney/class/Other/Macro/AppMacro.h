@@ -26,6 +26,11 @@
 #endif
 //占位图片
 
+#define Account @"account"
+#define Password @"password"
+#define UserType @"userType"
+#define quitLogin @"quitLogin"
+
 #define placeHoderImage [UIImage imageNamed:@"default"]
 #define placeHoderImage1 [UIImage imageNamed:@"homeMenu2S"]
 #define placeHoderImage2 [UIImage imageNamed:@"loading_img2"]
@@ -33,6 +38,8 @@
 #define placeHoderloading [UIImage imageNamed:@"loading"]
 
 #define kFilePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"carMenu.data"]
+
+#define kCarFilePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@carMenu.data",[[NSUserDefaults standardUserDefaults] objectForKey:Account]]];
 
 //加载图片
 //#define LOADIMAGE(file,type) [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:file ofType:type]]
@@ -70,10 +77,6 @@
 
 #define KCellLineColor 0xdcdcdc
 
-#define Account @"account"
-#define Password @"password"
-#define UserType @"userType"
-#define quitLogin @"quitLogin"
 //设备屏幕尺寸
 #define kHeight   [UIScreen mainScreen].bounds.size.height
 #define kWidth    [UIScreen mainScreen].bounds.size.width
@@ -100,13 +103,15 @@
 
 //#define kUrl @"http://192.168.1.112/restaurant"
 //#define kUrl @"http://192.168.0.126/restaurant"
-#define kUrl @"http://192.168.1.183/zlz/"
+//#define kUrl @"http://192.168.1.183/zlz/"
+//#define kUrl @"http://192.168.1.122/zlz/"
+#define kUrl @"http://120.24.77.104/zlz/"
 // 2.日志输出宏定义
 #ifdef DEBUG
 // 调试状态
-#define ccNSLog(...) NSLog(__VA_ARGS__)
+#define NSLog(...) NSLog(__VA_ARGS__)
 #else
 // 发布状态
-#define ccNSLog(...)
+#define NSLog(...)
 #endif
 

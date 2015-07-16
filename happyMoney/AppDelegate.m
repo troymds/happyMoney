@@ -23,6 +23,7 @@
 #import "KeychainItemWrapper.h"
 #import "UserItem.h"
 #import "SystemConfig.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface AppDelegate ()<ProAlertViewDelegate>
 @property (nonatomic,copy) NSString *download_link;
@@ -41,6 +42,9 @@
     NSString *version = [NSBundle mainBundle].infoDictionary[key];
     // 2.从沙盒中取出上次存储的版本号
     NSString *saveVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    
+    [self autoLogin];
+    
     if (saveVersion)
     {
 //        [self checkVersion];
@@ -65,7 +69,7 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self shareRegister];
-    [self autoLogin];
+//    [self autoLogin];
     
     [self.window makeKeyAndVisible];
     return YES;;
@@ -79,10 +83,11 @@
     NSString *password = [user objectForKey:Password];
     NSString *type = [user objectForKey:UserType];
     NSInteger isQuit = [[user objectForKey:quitLogin] integerValue];
+//    [SystemConfig sharedInstance].isUserLogin = YES;
     if (account && password && isQuit == 1) {
         NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:account,@"phone_num",password,@"password",type,@"type", nil];
         [HttpTool postWithPath:@"login" params:param success:^(id JSON, int code) {
-            NSLog(@"%@",JSON);
+//            NSLog(@"%@",JSON);
             NSDictionary *response = [JSON objectForKey:@"response"];
             if (code == 100) {
                 UserItem *item = [[UserItem alloc] initWithDic:[response objectForKey:@"data"]];
@@ -94,9 +99,21 @@
 //                [SystemConfig sharedInstance].isUserLogin = NO;
             }
         } failure:^(NSError *error) {
-            [RemindView showViewWithTitle:offline location:MIDDLE];
+//            [RemindView showViewWithTitle:offline location:MIDDLE];
+//            [SystemConfig sharedInstance].isUserLogin = NO;
         }];
     }
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([sourceApplication isEqualToString:@"com.alipay.iphoneclient"]) {
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"%@",resultDic);
+        }];
+    }else{
+        return [ShareSDK handleOpenURL:url sourceApplication:sourceApplication annotation:annotation wxDelegate:self];
+    }
+    return YES;
 }
 
 -(void)addUID{
@@ -172,23 +189,23 @@
     //    http://china-promote.com
     
     //添加新浪微博应用 注册网址 http://open.weibo.com
-    [ShareSDK connectSinaWeiboWithAppKey:@"2181797068"
-                               appSecret:@"a8b061a9844ddbd614c4c7d8a212d82d"
+    [ShareSDK connectSinaWeiboWithAppKey:@"3290037649"
+                               appSecret:@"efbe885062666d1655e56cedf9446004"
                              redirectUri:@"http://china-promote.com"];
     //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-    [ShareSDK  connectSinaWeiboWithAppKey:@"2181797068"
-                                appSecret:@"a8b061a9844ddbd614c4c7d8a212d82d"
+    [ShareSDK  connectSinaWeiboWithAppKey:@"3290037649"
+                                appSecret:@"efbe885062666d1655e56cedf9446004"
                               redirectUri:@"http://china-promote.com"
                               weiboSDKCls:[WeiboSDK class]];
     
     //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-    [ShareSDK connectQZoneWithAppKey:@"1104005075"
-                           appSecret:@"QFkbo0F8bS2OPaIP"
+    [ShareSDK connectQZoneWithAppKey:@"1104678420"
+                           appSecret:@"SNpuJWCRAcc7M27v"
                    qqApiInterfaceCls:[QQApiInterface class]
                      tencentOAuthCls:[TencentOAuth class]];
     
     //添加QQ应用  注册网址  http://open.qq.com/
-    [ShareSDK connectQQWithQZoneAppKey:@"1104005075"
+    [ShareSDK connectQQWithQZoneAppKey:@"1104678420"
                      qqApiInterfaceCls:[QQApiInterface class]
                        tencentOAuthCls:[TencentOAuth class]];
     
@@ -208,8 +225,6 @@
         }
     }
 }
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

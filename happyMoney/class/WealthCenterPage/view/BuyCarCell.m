@@ -47,7 +47,7 @@
         icon.backgroundColor  = [UIColor clearColor];
         
         //3 title
-        CGFloat titleX = CGRectGetMaxX(icon.frame) + 10;
+       CGFloat titleX = CGRectGetMaxX(icon.frame) + 10;
         CGFloat space = 5;
         CGFloat titleH = (imgWH - space * 2)/3;
         UILabel *title = [[UILabel alloc] initWithFrame:Rect(titleX, startXY, 100, titleH)];
@@ -56,7 +56,7 @@
 //        title.backgroundColor = [UIColor redColor];
         title.textColor = HexRGB(0x000000);
         title.font = [UIFont systemFontOfSize:PxFont(Font24)];
-        title.text = @"标题";
+        title.text = @"标题 ";
         //4 now price
         UILabel *newPrice = [[UILabel alloc] initWithFrame:Rect(titleX, CGRectGetMaxY(title.frame) + space, 100, titleH)];
         [backGround addSubview:newPrice];

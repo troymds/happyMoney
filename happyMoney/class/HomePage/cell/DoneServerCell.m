@@ -49,6 +49,7 @@
         _nickName.textColor = HexRGB(0x808080);
         _nickName.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _nickName.text = [SystemConfig sharedInstance].user.userName;
+        _nickName.backgroundColor = [UIColor clearColor];
         
         //3 time
         _dateLB = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -56,6 +57,7 @@
         _dateLB.textColor = HexRGB(0x808080);
         _dateLB.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _dateLB.text = @"2013.08.98";
+        _dateLB.backgroundColor = [UIColor clearColor];
         
         //4 first line
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectZero];
@@ -82,6 +84,7 @@
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:total];
         total.text = @"总计：";
+        total.backgroundColor = [UIColor clearColor];
         total.textColor = HexRGB(0x808080);
         total.font = [UIFont systemFontOfSize:PxFont(Font22)];
         _total = total;
@@ -89,6 +92,7 @@
         _totalLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self addSubview:_totalLB];
         _totalLB.text = @"¥ 216";
+        _totalLB.backgroundColor = [UIColor clearColor];
         _totalLB.textColor = HexRGB(0x808080);
         _totalLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         
@@ -102,18 +106,21 @@
         
         UILabel *typeLB = [[UILabel alloc] initWithFrame:CGRectZero];
         typeLB.textColor = HexRGB(0x808080);
+        typeLB.backgroundColor = [UIColor clearColor];
         typeLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         [self.contentView addSubview:typeLB];
         _typeLB = typeLB;
         
         _telLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_telLB];
+        _telLB.backgroundColor = [UIColor clearColor];
         _telLB.textColor = HexRGB(0x808080);
         _telLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         
         _addressLB = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_addressLB];
         _addressLB.textColor = HexRGB(0x808080);
+        _addressLB.backgroundColor = [UIColor clearColor];
         _addressLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
         
         [self addSubview:_telLB];
@@ -189,24 +196,24 @@
     CGFloat iconX = startXY/2 ;
     CGFloat iconWH = firstViewH - iconX * 2;
     _icon.frame = Rect(iconX, iconX, iconWH, iconWH);
-    _icon.backgroundColor = [UIColor clearColor];
-    _icon.layer.masksToBounds = YES;
-    _icon.layer.cornerRadius = iconWH/2;
+//    _icon.backgroundColor = [UIColor clearColor];
+//    _icon.layer.masksToBounds = YES;
+//    _icon.layer.cornerRadius = iconWH/2;
     
     //2 nick name
     CGFloat nickX = CGRectGetMaxX(_icon.frame) + 10;
     CGFloat timeH = (firstViewH - startXY)/2;
     _nickName.frame = Rect(nickX, startXY, 200, timeH);
-    _nickName.textColor = HexRGB(0x808080);
-    _nickName.font = [UIFont systemFontOfSize:PxFont(Font22)];
+//    _nickName.textColor = HexRGB(0x808080);
+//    _nickName.font = [UIFont systemFontOfSize:PxFont(Font22)];
 //    _nickName.text = @"会呼吸的痛";
     
     //3 time
     CGFloat timeW = 120;
     CGFloat timeX = kWidth - startXY - timeW + 10;
     _dateLB.frame = Rect(timeX, startXY, timeW, timeH);
-    _dateLB.textColor = HexRGB(0x808080);
-    _dateLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
+//    _dateLB.textColor = HexRGB(0x808080);
+//    _dateLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
     _dateLB.text = [NSString stringWithFormat:@"%@",[Tool getShortTimeFrom:data.post_time]];
     
     //4 first line
@@ -247,13 +254,13 @@
     CGFloat toX = kWidth - 10 - moneyW - moneyW;
     _total.frame = Rect(toX, _viewH + startXY, moneyW, timeH);
     _total.text = @"总计：";
-    _total.textColor = HexRGB(0x808080);
-    _total.font = [UIFont systemFontOfSize:PxFont(Font22)];
+//    _total.textColor = HexRGB(0x808080);
+//    _total.font = [UIFont systemFontOfSize:PxFont(Font22)];
     
     _totalLB.frame = Rect(CGRectGetMaxX(_total.frame) - 10, _total.frame.origin.y, moneyW, timeH);
     _totalLB.text = [NSString stringWithFormat:@"¥ %@",data.order_price];
-    _totalLB.textColor = HexRGB(0x808080);
-    _totalLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
+//    _totalLB.textColor = HexRGB(0x808080);
+//    _totalLB.font = [UIFont systemFontOfSize:PxFont(Font22)];
     
     _line2.frame = Rect(linxX, _viewH + firstViewH - 0.5, kWidth - linxX * 2, 0.5);
     _line2.backgroundColor = HexRGB(KCellLineColor);

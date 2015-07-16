@@ -39,10 +39,11 @@
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         //1 time
 //        self.backgroundColor = HexRGB(0xeeeeee);
-        
+        self.backgroundColor = [UIColor whiteColor];
         UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:bottomView];
         bottomView.backgroundColor = HexRGB(0xeeeeee);
+//        bottomView.backgroundColor = [UIColor redColor];
         _bottomView = bottomView;
         
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -50,12 +51,14 @@
         time.textColor = HexRGB(0x808080);
         time.font = [UIFont systemFontOfSize:PxFont(Font20)];
         time.text = @"下单时间: 2014.05.01";
+        time.backgroundColor = [UIColor clearColor];
         _time = time;
         
         UILabel *transType = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:transType];
         transType.textColor = HexRGB(0x808080);
         transType.font = [UIFont systemFontOfSize:PxFont(Font20)];
+        transType.backgroundColor = [UIColor clearColor];
         _typeLb = transType;
 
         UIView *line1 = [[UIView alloc] initWithFrame:CGRectZero];
@@ -79,6 +82,7 @@
         tel.textColor = HexRGB(0x808080);
         tel.font = [UIFont systemFontOfSize:PxFont(Font20)];
         tel.text = @"联系电话：13989878987";
+        tel.backgroundColor = [UIColor clearColor];
         _tel = tel;
         
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -86,12 +90,14 @@
         total.text = @"总计：";
         total.textColor = HexRGB(0x808080);
         total.font = [UIFont systemFontOfSize:PxFont(Font20)];
+        total.backgroundColor = [UIColor clearColor];
         _total = total;
         
         UILabel *money = [[UILabel alloc] initWithFrame:CGRectZero];
         [self addSubview:money];
         money.text = @" ¥ 2136";
         money.textColor = HexRGB(0x3a3a3a);
+        money.backgroundColor = [UIColor clearColor];
         money.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _money = money;
 

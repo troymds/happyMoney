@@ -23,6 +23,13 @@
 
 @implementation SelectAddressController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (_tableView) {
+        [_tableView reloadData];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"收货地址";
@@ -36,6 +43,7 @@
     self.navigationItem.rightBarButtonItem = rehtnItem;
     
     _dataArray = [NSMutableArray array];
+    [self buildUI];
     [self loadData];
 }
 
@@ -74,14 +82,13 @@
         _hit2.font = [UIFont systemFontOfSize:PxFont(Font22)];
         _hit2.textColor = HexRGB(0x3a3a3a);
     }
-    _hit.text = @"您还没有添加任何收获信息，";
+    _hit.text = @"您还没有添加任何收货信息，";
     _hit2.text = @"请点击右上角图标进行添加哦!";
     _nodataImg.hidden = NO;
     _hit.hidden = NO;
 }
 
--(void)loadData
-{
+-(void)loadData                                                                                                                                                                                                                                                                                                 {
     //获取地址列表
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.dimBackground = NO;
@@ -96,7 +103,8 @@
                     DefaultAddressModel *model = [[DefaultAddressModel alloc] initWithDictionary:dic];
                     [_dataArray addObject:model];
                 }
-              [self buildUI];
+//              [self buildUI];
+                [_tableView reloadData];
             }
             else{
                 [self showNoData];

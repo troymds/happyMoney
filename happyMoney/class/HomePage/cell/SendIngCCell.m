@@ -34,6 +34,7 @@
         
         UILabel *time = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:time];
+        time.backgroundColor = [UIColor clearColor];
         time.textColor = HexRGB(0x808080);
         time.font = [UIFont systemFontOfSize:PxFont(Font20)];
         time.text = @"下单时间: 2014.05.01";
@@ -41,6 +42,7 @@
         
         UILabel *transType = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:transType];
+        transType.backgroundColor = [UIColor clearColor];
         transType.textColor = HexRGB(0x808080);
         transType.font = [UIFont systemFontOfSize:PxFont(Font20)];
         _typeLb = transType;
@@ -65,9 +67,11 @@
         _shipping.textColor = HexRGB(0x808080);
         _shipping.font = [UIFont systemFontOfSize:PxFont(Font22)];
         _shipping.text = @"货运号：1535352535253";
+        _shipping.backgroundColor = [UIColor clearColor];
         
         UILabel *tel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:tel];
+        tel.backgroundColor = [UIColor clearColor];
         _telLB = tel;
         tel.textColor = HexRGB(0x808080);
         tel.font = [UIFont systemFontOfSize:PxFont(Font22)];
@@ -75,6 +79,7 @@
         
         UILabel *total = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:total];
+        total.backgroundColor = [UIColor clearColor];
         total.text = @"总计：";
         total.textColor = HexRGB(0x808080);
         total.font = [UIFont systemFontOfSize:PxFont(Font22)];
@@ -82,6 +87,7 @@
         
         UILabel *money = [[UILabel alloc] initWithFrame:CGRectZero];
         [self addSubview:money];
+        money.backgroundColor = [UIColor clearColor];
         money.text = @"¥ 216";
         money.textColor = HexRGB(0x3a3a3a);
         money.font  = [UIFont systemFontOfSize:PxFont(Font22)];

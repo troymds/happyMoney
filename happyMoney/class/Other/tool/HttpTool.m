@@ -60,7 +60,7 @@
         NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         int code = [[[jsonDic objectForKey:@"response"] objectForKey:@"code"] intValue];
         success(jsonDic,code);
-//        NSLog(@"%@",jsonDic);
+        NSLog(@"%@",jsonDic);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         failure(error);
     }];
